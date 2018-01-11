@@ -1,42 +1,42 @@
 import pickle, os
-
+# This function calculate my communal payments
 def total():
-		with open('value.dat', 'rb') as file:
+		with open('value.dat', 'rb') as file: 	#open value file 
 			data = pickle.load(file)
-			print('Вода:')
-			print('Предыдущие показания:',data[0])
-			a=int(input('Введите новое значение:'))
-			r = a-data[0]
-			w = r*40.98
+			print('Water:')
+			print('Last value:',data[0]) 		#Load water value
+			a=int(input('Enter new value:'))
+			r = a-data[0]						#Count the amount of water expended
+			w = r*40.98							#Calculate the amount of payment
 
-			print('Газ:')
-			print('Предыдущие показания:',data[2])
-			c=int(input("Введите новое значение: "))
-			r2=c-data[2]
-			g=r2*5.88652
+			print('Gas')
+			print('Last value:',data[2])		#Load gas value	
+			c=int(input('Enter new value:'))	
+			r2=c-data[2]						#Count the amount of gas expended
+			g=r2*5.88652						#Calculate the amount of payment
 
-			print('Электроэнергия:')
-			print('Предыдущие показания:',data[1])
-			b =int(input('Введите новое значение: '))
-			r1 = b-data[1]
-			print('Израсходовано света:\n {:.2f} Квт'.format(r1))
-			if r1 <= 250:
-				e = r1 *3.72
-				print('Сумма за свет:\n {:.2f} руб.'.format(e))
+			print('Electric power:')
+			print('Last value:',data[1])		#Load electric power value
+			b =int(input('Enter new value:'))
+			r1 = b-data[1]						#Count the amount of electric power expended
+			print('Consumed electricity:\n {:.2f} kw'.format(r1))
+			if r1 <= 250:						#Сompare the expenditure with the social norm per family
+				e = r1 *3.72					#Calculate the amount of payment
+				print('Amount of electric power expended:\n {:.2f} rub.'.format(e))
 			else:
-				e=250*3.72+(r1-250)*5.19
-				print('Сумма за свет:\n {:.2f} руб.'.format(e))
+				e=250*3.72+(r1-250)*5.19		#Calculate the amount of payment
+				print('Amount of electric power expended:\n {:.2f} rub.'.format(e))
 
-			garbage=data[3]
-			total=w+g+e+garbage
+			garbage=data[3]						#Load garbage value	
+			total=w+g+e+garbage					#total amount calculation
 
-			print('Израсходовано воды:\n {:.2f} м3'.format(r))
-			print('Сумма за воду:\n {:.2f} руб.'.format(w))
-			print('Израсходовано газа:\n {:.2f} м3'.format(r2))
-			print('Сумма за газ:\n {:.2f} руб.'.format(g))
-			print('Сумма за мусор:\n',garbage, 'руб')
-			print('Всего:\n {:.2f} руб'.format(total))
-
+			print('Spent water:\n {:.2f} cbm'.format(r))
+			print('Amount for water expended:\n {:.2f} rub.'.format(w))
+			print('Spent gas:\n {:.2f} cdm'.format(r2))
+			print('Amount for gas expended:\n {:.2f} rub.'.format(g))
+			print('Fee for garbage disposal:\n',garbage, 'rub')
+			print('Total:\n {:.2f} rub'.format(total))
+		#rewrite all value
 		data = [0,1,2,3]
 		data[0] = a
 		data[1] = b
@@ -44,23 +44,23 @@ def total():
 		data[3] = 360
 		with open('value.dat', 'wb') as file:
 			pickle.dump(data, file)
-
+		#Write result to file
 		with open('Total.txt', 'w') as file:
-			file.write('Израсходовано воды:\n {:.2f} м3\n'.format(r))
-			file.write('Сумма за воду:\n {:.2f} руб.\n'.format(w))
-			file.write('Израсходовано света:\n {:.2f} Квт\n'.format(r1))
-			file.write('Сумма за свет:\n {:.2f} руб.\n'.format(e))
-			file.write('Израсходовано газа:\n {:.2f} дм3\n'.format(r2))
-			file.write('Сумма за газ:\n {:.2f} руб.\n'.format(g))
-			file.write('Сумма за мусор:\n {:.2f} руб.\n'.format(garbage))
-			file.write('Всего:\n {:.2f} руб'.format(total))
+			file.write('Spent water:\n {:.2f} м3\n'.format(r))
+			file.write('Amount for water expended:\n {:.2f} руб.\n'.format(w))
+			file.write('Consumed electricity:\n {:.2f} Квт\n'.format(r1))
+			file.write('Amount of electric power expended:\n {:.2f} руб.\n'.format(e))
+			file.write('Spent gas:\n {:.2f} дм3\n'.format(r2))
+			file.write('Amount for gas expended:\n {:.2f} руб.\n'.format(g))
+			file.write('Fee for garbage disposal:\n {:.2f} руб.\n'.format(garbage))
+			file.write('Total:\n {:.2f} руб'.format(total))
 
 if not os.path.isfile('value.dat'):
-
+#Write value
 	data = [0,1,2,3]
-	data[0] = int(input('Введите показания воды на конец месяца: '))
-	data[1] = int(input('Введите показания света на конец месяца: '))
-	data[2] = int(input('Введите показания газа на конец месяца:'))
+	data[0] = int(input('Enter last water value: '))
+	data[1] = int(input('Enter last electric power value: '))
+	data[2] = int(input('Enter last gas value: '))
 	data[3] = 360
 
 	with open('value.dat', 'wb') as file:
